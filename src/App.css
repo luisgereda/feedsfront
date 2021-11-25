@@ -22,3 +22,53 @@ nav ul {
   align-items: center;
   flex-grow: 1;
 }
+
+.home {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+}
+
+img {
+  height: auto;
+  width: 300px;
+}
+
+.imagen {
+  height: 200px;
+  width: auto;
+}
+
+.reaction {
+  justify-content: space-between;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+}
+
+.addActivity {
+  display: flex;
+  justify-content: center;
+}
+
+nav button {
+  border: none;
+  background-color: red;
+  cursor: pointer;
+  font-size: 29px;
+  color: whitesmoke;
+}
+
+.activity-card {
+  border: 1px solid black;
+  margin: 5px;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+}
+
+.reaction {
+  display: flex;
+}
