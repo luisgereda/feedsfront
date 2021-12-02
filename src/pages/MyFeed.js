@@ -36,6 +36,7 @@ export default function MyFeed(props) {
       foreign_id: foreignID,
       picture: url,
       message: post,
+      likes: 0,
     });
     console.log(newPost);
     setTimeline([newPost, ...timeline]);
@@ -53,10 +54,9 @@ export default function MyFeed(props) {
     console.log(request.removed);
 
     if (request) {
-      const newList = timeline.filter((activity, index) => {
+      const newList = timeline.filter((activity) => {
         return activity.id !== id;
       });
-      console.log(newList);
       setTimeline(newList);
     }
   };
@@ -81,21 +81,23 @@ export default function MyFeed(props) {
       </div>
       <div className="home">
         {timeline &&
-          timeline?.map((activity, index) => (
-            <Activities
-              key={index}
-              actor={activity.actor?.id}
-              object={activity.object}
-              picture={activity.picture}
-              time={activity.time}
-              verb={activity.verb}
-              id={activity.id}
-              likes={activity.reaction_counts?.like}
-              client={client}
-              userID={userID}
-              todelete={todelete}
-            ></Activities>
-          ))}
+          timeline?.map((activity, index) => {
+            const time = new Date(activity.time).toDateString();
+            return (
+              <Activities
+                key={index}
+                actor={activity.actor?.id}
+                picture={activity.picture}
+                time={time}
+                id={activity.id}
+                message={activity.message}
+                likes={activity.reaction_counts?.like}
+                client={client}
+                userID={userID}
+                todelete={todelete}
+              ></Activities>
+            );
+          })}
       </div>
     </div>
   );

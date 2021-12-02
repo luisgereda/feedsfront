@@ -30,13 +30,17 @@ nav ul {
   align-items: center;
 }
 
+.principal {
+  display: flex;
+}
+
 img {
   height: auto;
   width: 300px;
 }
 
 .imagen {
-  height: 200px;
+  height: auto;
   width: auto;
 }
 

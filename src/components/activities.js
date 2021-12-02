@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Activities(props) {
   const [like, setLikes] = useState(0);
@@ -21,6 +22,11 @@ export default function Activities(props) {
   const increaselike = async (id) => {
     const request = await client.reactions.add("like", id, {}, userID);
     request && setLikes(like + 1);
+    const response = await axios.post(`http://localhost:4000/update`, {
+      like,
+      id,
+    });
+    console.log(response);
   };
 
   const Onclickdelete = (id) => {
@@ -30,53 +36,31 @@ export default function Activities(props) {
   return (
     <div className="activity-card">
       <img src={props.picture} alt="image" />
+      <h4>{props.message}</h4>
       <p>
         {props.actor} <br />
-        {props.verb} <br />
-        {props.object} <br />
         {props.time} <br />
       </p>
-      {props.likes ? (
-        <span className="reaction">
-          <button
-            onClick={(e) => {
-              increaselike(props.id);
-            }}
-          >
-            👍{like}
-          </button>
 
-          {owner && (
-            <button
-              onClick={(e) => {
-                Onclickdelete(props.id);
-              }}
-            >
-              🗑️
-            </button>
-          )}
-        </span>
-      ) : (
-        <span className="reaction">
+      <span className="reaction">
+        <button
+          onClick={(e) => {
+            increaselike(props.id);
+          }}
+        >
+          👍{like}
+        </button>
+
+        {owner && (
           <button
             onClick={(e) => {
-              increaselike(props.id);
+              Onclickdelete(props.id);
             }}
           >
-            👍
+            🗑️
           </button>
-          {like}
-          {owner && (
-            <button
-              onClick={(e) => {
-                Onclickdelete(props.id);
-              }}
-            >
-              🗑️
-            </button>
-          )}
-        </span>
-      )}
+        )}
+      </span>
     </div>
   );
 }

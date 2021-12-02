@@ -18,9 +18,6 @@ function App() {
   const [home, setHome] = useState("home");
   const [myFeed, setMyfeed] = useState("");
 
-  console.log(app_key);
-  console.log(app_id);
-
   async function Connect() {
     const response = await axios.get(`http://localhost:4000/${userId}`);
     setToken(response.data);
@@ -30,7 +27,7 @@ function App() {
   useEffect(() => {
     function Start() {
       if (token) {
-        const getclient = stream.connect(app_key, token, app_id);
+        const getclient = stream.connect("zetdfqptqych", token, "1145734");
         console.log("client", getclient);
         setClient(getclient);
       }
