@@ -1,22 +1,23 @@
 import Activities from "../components/activities";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
-export default function MyFeed(props) {
+export default function GlobalFeed(props) {
   const client = props.client;
   const userID = props.userID;
   const token = props.token;
-  const user = client.feed("user", userID, token);
+  const global = client.feed("global", "all", token);
   const [timeline, setTimeline] = useState("");
   const [post, setPost] = useState("");
   const [url, setURL] = useState("");
 
   useEffect(() => {
     async function getFeed() {
-      const feed = await user.get({
+      const feed = await global.get({
         limit: 10,
         reactions: { counts: true, own: true, recent: true },
       });
-      console.log("user", feed.results);
+      console.log("global", feed.results);
       setTimeline(feed.results);
     }
 
@@ -29,7 +30,7 @@ export default function MyFeed(props) {
     console.log(url);
     const foreignID = Math.random();
     const newActor = "SU:".concat(userID);
-    const newPost = await user.addActivity({
+    const newPost = await global.addActivity({
       actor: newActor,
       verb: "posted",
       object: "action:1",
@@ -37,7 +38,6 @@ export default function MyFeed(props) {
       picture: url,
       message: post,
       likes: 0,
-      to: [`global:all`],
     });
     console.log(newPost);
     setTimeline([newPost, ...timeline]);
@@ -51,8 +51,13 @@ export default function MyFeed(props) {
   }
 
   const todelete = async (id) => {
-    const request = await user.removeActivity(id);
+    const request = await global.removeActivity(id);
     console.log(request.removed);
+
+    // const response = await axios.delete(
+    //   `http://localhost:4000/deleteGlobal/${id}`
+    // );
+    // console.log(response);
 
     if (request) {
       const newList = timeline.filter((activity) => {

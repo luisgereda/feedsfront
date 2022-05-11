@@ -19,14 +19,23 @@ export default function Activities(props) {
     getFeed();
   }, []);
 
+  const target = `notification:${props.actor}`;
+
   const increaselike = async (id) => {
-    const request = await client.reactions.add("like", id, {}, userID);
+    const request = await client.reactions.add(
+      "like",
+      id,
+      {},
+      {
+        targetFeeds: [target],
+      }
+    );
+    console.log(request);
     request && setLikes(like + 1);
     const response = await axios.post(`http://localhost:4000/update`, {
       like,
       id,
     });
-    console.log(response);
   };
 
   const Onclickdelete = (id) => {
